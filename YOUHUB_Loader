@@ -16,13 +16,17 @@ local Tab = {
   ESP = Window:AddTab("ESP", "rbxassetid://4335489011"),
   Visual = Window:AddTab("Visual", "rbxassetid://4335489011"),
   Miscellaneous = Window:AddTab("Miscellaneous", "rbxassetid://4335489011"),
-  Configs = Window:AddTab("Configs", "rbxassetid://4335489011"),
+  Configs = Window:AddTab("Configs", "rbxassetid://4335489011")
 }
+
 local Flags = {
   ClosetInteract = false,
   UnlockInteract = false,
   ReviveOnDeath = false,
   ReplayOnDeath = false,
+  InstanceInteract = false,
+  CrossInteraction = false,
+  RemoteInteraction = true,
   RangeMultiplier = 1,
   AutoPadlockUnlock = false,
   AutoPadlockDistance = 25,
@@ -39,7 +43,7 @@ local Flags = {
   AntiEyes = false,
   AntiLookman = false,
   AntiBanana = false,
-  AntiJeffTheKiller = false
+  AntiJeffTheKiller = false,
   VelocityLimit = false,
   VelocityLimitSet = 0,
   Footsteps = false,
@@ -54,11 +58,10 @@ local Flags = {
   SpeedBypass = false,
   LadderBypass = false
 }
-
 local LeftMainI = Tab.Main:AddLeftGroupbox("Automation")
+
 LeftMainI:AddToggle("MyToggle",{
 Text = "Closet Interact",
-Tooltip = "Press Closet But Keybind Other.",
 Default = Flags.ClosetInteract,
 Callback = function(v)
 _G.ClosetInteract = v
@@ -84,6 +87,8 @@ elseif v.Name == "Rooms_Locker" then
 v.HidePrompt.KeyboardKeyCode = "Q"
 elseif v.Name == "Rooms_Frigde" then
 v.HidePrompt.KeyboardKeyCode = "Q"
+end
+end
 else
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Wardrobe" then
@@ -105,7 +110,6 @@ end)
 end})
 LeftMainI:AddToggle("MyToggle",{
 Text = "Unlock Interact",
-Tooltip = "Press Unlock But Keybind Other.",
 Default = Flags.UnlockInteract,
 Callback = function(v)
 _G.UnlockInteract = v
@@ -132,30 +136,84 @@ end
 end
 end)
 end})
+
 LeftMainI:AddToggle("MyToggle",{
 Text = "Revive On Death",
-Tooltip = "When you died auto replay",
 Default = Flags.ReviveOnDeath,
 Callback = function(v)
 _G.ReviveOnDeath = v
 game:GetService("RunService").RenderStepped:Connect(function()
-if game.Players.LocalPlayer.Character.Humanoid.Health = 0 and _G.ReviveOnDeath then
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReviveOnDeath then
 game:GetService("ReplicatedStorage").EntityInfo.Revive:FireServer()
 end
 end)
 end})
 LeftMainI:AddToggle("MyToggle",{
 Text = "Replay On Death",
-Tooltip = "When you died auto replay",
 Default = Flags.ReplayOnDeath,
 Callback = function(v)
 _G.ReplayOnDeath = v
 game:GetService("RunService").RenderStepped:Connect(function()
-if game.Players.LocalPlayer.Character.Humanoid.Health = 0 and _G.ReplayOnDeath then
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReplayOnDeath then
 game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
 end
 end)
 end})
+LeftMainI:AddDivider()
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.InstanceInteract then return end
+if v:IsA("ProximityPrompt") then
+if _G.InstanceInteract then
+v.HoldDuration = 0
+end
+end
+end)
+LeftMainI:AddToggle("MyToggle",{
+Text = "Instance Interact",
+Default = Flags.InstanceInteract,
+Callback = function(v)
+_G.InstanceInteract = v
+end})
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.CrossInteraction then return end
+if v:IsA("ProximityPrompt") then
+if _G.CrossInteraction then
+v.RequiresLineOfSight = false
+else
+v.RequiresLineOfSight = true
+end
+end
+end)
+LeftMainI:AddToggle("MyToggle",{
+Text = "Cross Interaction",
+Default = Flags.CrossInteraction,
+Callback = function(v)
+_G.CrossInteraction = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function(v)
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+if _G.Reach then
+v.MaxActivationDistance = _G.MaxMultiplier or 1
+end
+end
+end
+end)
+LeftMainI:AddToggle("MyToggle",{
+Text = "Remote Interaction",
+Default = Flags.RemoteInteraction,
+Callback = function(v)
+_G.Reach = v
+end})
+
+
+
+
+
+
+
+
+
 
 
 
