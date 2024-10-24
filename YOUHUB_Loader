@@ -1,0 +1,90 @@
+local repo = 'https://raw.githubusercontent.com/Cold-Script/Linoria/refs/heads/main/LinoriaLib/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library_Loader.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = ' [ ALPHA ] DOORS | YOUHUB V5',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
+})
+local Tab = {
+  Main = Window:AddTab("Main", "rbxassetid://4335489011"),
+  Exploits = Window:AddTab("Exploits", "rbxassetid://4335489011"),
+  ESP = Window:AddTab("ESP", "rbxassetid://4335489011"),
+  Visual = Window:AddTab("Visual", "rbxassetid://4335489011"),
+  Miscellaneous = Window:AddTab("Miscellaneous", "rbxassetid://4335489011"),
+  Configs = Window:AddTab("Configs", "rbxassetid://4335489011"),
+}
+local Flags = {
+--Automation (Left-Main I)
+  ClosetInteract = false,
+  ReviveOnDeath = false, --Fools
+  ReplayOnDeath = false,
+  RangeMultiplier = 1,
+  AutoPadlockUnlock = false, --Hotel - Fools
+  AutoPadlockDistance = 25, --Hotel - Fools
+--Notifying (Right-Main I)
+  PadlockCode = false,
+  EntityNotifying = false,
+  NotifyingEntityChat = false,
+  EntityList = {
+    Eyes = false,
+    Lookman = false,
+    JeffTheKiller = false,
+    SeekChase = false,
+    Rush = false,
+    Ambush = false,
+    Blitz = false,
+    A60 = false,
+    A120 = false
+    },
+  PlaySound = false,
+  TimeNotify = 3,
+--Self (Left-Exploits I)
+  Anti = {
+    Snare = false,
+    Dupe = false,
+    Vacuum = false,
+    Chandelier = false,
+    SeekArms = false,
+    Eyes = false,
+    Lookman = false,
+    Banana = false,
+    JeffTheKiller = false
+    },
+  VelocityLimit = false,
+  VelocityLimitSet = 0,
+  Footsteps = {
+    Disabled = true,
+    Enabled = false
+    }
+--Trolling (Right-Exploits I)
+  ClosetSpamJack = false,
+  Stunned = false,
+  LagBody = false
+--Removals (Right-Exploits II)
+  DisableScreech = false,
+  DisableA90 = false,
+  DisableHalt = false,
+  DisableSeekTrigger = false,
+--Bypass (Right-Exploits III)
+  BypassTime = 0.2,
+  SpeedBypass = false,
+  LadderBypass = false --Mines
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
