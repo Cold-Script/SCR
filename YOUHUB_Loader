@@ -125,7 +125,35 @@ end
 end
 end)
 end})
-
+LeftMainI:AddToggle("MyToggle",{
+Text = "Unlock Interact",
+Tooltip = "Press Unlock But Keybind Other.",
+Default = Flags.UnlockInteract,
+Callback = function(v)
+_G.UnlockInteract = v
+end}):AddKeyPicker('KeyPicker',{
+	Default = 'X',
+	SyncToggleState = false,
+	Mode = 'Always',
+	Text = 'Closet Interact',
+	NoUI = false,
+    Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.UnlockInteract then 
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Door" then
+v.Lock.UnlockPrompt.KeyboardKeyCode = "X"
+end
+end
+else
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Door" then
+v.Lock.UnlockPrompt.KeyboardKeyCode = "E"
+end
+end
+end
+end)
+end})
 
 
 
