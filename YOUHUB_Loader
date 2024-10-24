@@ -299,6 +299,9 @@ if Collected.Name == "Icon" then
            end
       end
 end})
+function Notifying(text, time, sound)
+Library:Notify(text, time, sound)
+end
 local RightMainI = Tab.Main:AddRightGroupbox("Notifying")
 RightMainI:AddToggle("MyToggle",{
 Text = "Entity Notifying",
