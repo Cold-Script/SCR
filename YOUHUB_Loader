@@ -19,62 +19,40 @@ local Tab = {
   Configs = Window:AddTab("Configs", "rbxassetid://4335489011"),
 }
 local Flags = {
---Automation (Left-Main I)
   ClosetInteract = false,
   UnlockInteract = false,
-  ReviveOnDeath = false, --Fools
+  ReviveOnDeath = false,
   ReplayOnDeath = false,
   RangeMultiplier = 1,
-  AutoPadlockUnlock = false, --Hotel - Fools
-  AutoPadlockDistance = 25, --Hotel - Fools
---Notifying (Right-Main I)
+  AutoPadlockUnlock = false,
+  AutoPadlockDistance = 25,
   PadlockCode = false,
   EntityNotifying = false,
   NotifyingEntityChat = false,
-  EntityList = {
-    Eyes = false,
-    Lookman = false,
-    JeffTheKiller = false,
-    SeekChase = false,
-    Rush = false,
-    Ambush = false,
-    Blitz = false,
-    A60 = false,
-    A120 = false
-    },
   PlaySound = false,
   TimeNotify = 3,
---Self (Left-Exploits I)
-  Anti = {
-    Snare = false,
-    Dupe = false,
-    Vacuum = false,
-    Chandelier = false,
-    SeekArms = false,
-    Eyes = false,
-    Lookman = false,
-    Banana = false,
-    JeffTheKiller = false
-    },
+  AntiSnare = false,
+  AntiDupe = false,
+  AntiVacuum = false,
+  AntiChandelier = false,
+  AntiSeekArms = false,
+  AntiEyes = false,
+  AntiLookman = false,
+  AntiBanana = false,
+  AntiJeffTheKiller = false
   VelocityLimit = false,
   VelocityLimitSet = 0,
-  Footsteps = {
-    Disabled = true,
-    Enabled = false
-    },
---Trolling (Right-Exploits I)
+  Footsteps = false,
   ClosetSpamJack = false,
   Stunned = false,
   LagBody = false,
---Removals (Right-Exploits II)
   DisableScreech = false,
   DisableA90 = false,
   DisableHalt = false,
   DisableSeekTrigger = false,
---Bypass (Right-Exploits III)
   BypassTime = 0.2,
   SpeedBypass = false,
-  LadderBypass = false --Mines
+  LadderBypass = false
 }
 
 local LeftMainI = Tab.Main:AddLeftGroupbox("Automation")
