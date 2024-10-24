@@ -21,6 +21,7 @@ local Tab = {
 local Flags = {
 --Automation (Left-Main I)
   ClosetInteract = false,
+  UnlockInteract = false,
   ReviveOnDeath = false, --Fools
   ReplayOnDeath = false,
   RangeMultiplier = 1,
@@ -76,7 +77,54 @@ local Flags = {
   LadderBypass = false --Mines
 }
 
-
+local LeftMainI = Tab.Main:AddLeftGroupbox("Automation")
+LeftMainI:AddToggle("MyToggle",{
+Text = "Closet Interact",
+Tooltip = "Press Closet But Keybind Other.",
+Default = Flags.ClosetInteract,
+Callback = function(v)
+_G.ClosetInteract = v
+end}):AddKeyPicker('KeyPicker',{
+	Default = 'Q',
+	SyncToggleState = false,
+	Mode = 'Always',
+	Text = 'Closet Interact',
+	NoUI = false,
+    Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.ClosetInteract then 
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Wardrobe" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+elseif v.Name == "BackdoorWardrobe" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+elseif v.Name == "RetroWardrobe" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+elseif v.Name == "Locker_Large" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+elseif v.Name == "Rooms_Locker" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+elseif v.Name == "Rooms_Frigde" then
+v.HidePrompt.KeyboardKeyCode = "Q"
+else
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Wardrobe" then
+v.HidePrompt.KeyboardKeyCode = "E"
+elseif v.Name == "BackdoorWardrobe" then
+v.HidePrompt.KeyboardKeyCode = "E"
+elseif v.Name == "RetroWardrobe" then
+v.HidePrompt.KeyboardKeyCode = "E"
+elseif v.Name == "Locker_Large" then
+v.HidePrompt.KeyboardKeyCode = "E"
+elseif v.Name == "Rooms_Locker" then
+v.HidePrompt.KeyboardKeyCode = "E"
+elseif v.Name == "Rooms_Frigde" then
+v.HidePrompt.KeyboardKeyCode = "E"
+end
+end
+end
+end)
+end})
 
 
 
