@@ -24,6 +24,7 @@ local Flags = {
   UnlockInteract = false,
   ReviveOnDeath = false,
   ReplayOnDeath = false,
+  LobbyOnDeath = false,
   InstanceInteract = false,
   CrossInteraction = false,
   RemoteInteraction = true,
@@ -69,22 +70,23 @@ end}):AddKeyPicker('KeyPicker',{
 	Mode = 'Always',
 	Text = 'Closet Interact',
 	NoUI = false,
-    Callback = function(v)
+        Callback = function(v)
+_G.KeybindI = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.ClosetInteract then 
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Wardrobe" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 elseif v.Name == "BackdoorWardrobe" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 elseif v.Name == "RetroWardrobe" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 elseif v.Name == "Locker_Large" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 elseif v.Name == "Rooms_Locker" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 elseif v.Name == "Rooms_Frigde" then
-v.HidePrompt.KeyboardKeyCode = "Q"
+v.HidePrompt.KeyboardKeyCode = _G.KeybindI
 end
 end
 else
@@ -117,12 +119,13 @@ end}):AddKeyPicker('KeyPicker',{
 	Mode = 'Always',
 	Text = 'Closet Interact',
 	NoUI = false,
-    Callback = function(v)
+        Callback = function(v)
+_G.KeybindII = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.UnlockInteract then 
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Door" then
-v.Lock.UnlockPrompt.KeyboardKeyCode = "X"
+v.Lock.UnlockPrompt.KeyboardKeyCode = _G.KeybindII
 end
 end
 else
@@ -152,8 +155,20 @@ Default = Flags.ReplayOnDeath,
 Callback = function(v)
 _G.ReplayOnDeath = v
 game:GetService("RunService").RenderStepped:Connect(function()
+wait(5)
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReplayOnDeath then
 game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
+end
+end)
+end})
+LeftMainI:AddToggle("MyToggle",{
+Text = "Lobby On Death",
+Default = Flags.ReplayOnDeath,
+Callback = function(v)
+_G.LobbyOnDeath = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.LobbyOnDeath then
+game:GetService("ReplicatedStorage").EntityInfo.Lobby:FireServer()
 end
 end)
 end})
@@ -214,11 +229,12 @@ Compact = true,
 Callback = function(v)
 _G.MaxMultiplier = v
 end})
-
+LeftMainI:AddDivider()
 LeftMainI:AddToggle("MyToggle",{
-Text = "Auto Padlock Unlock",
+Text = "Auto Padlock Unlock [50]",
 Default = Flags.AutoPadlockUnlock,
 Callback = function(v)
+local EntityInfo = game:GetService("ReplicatedStorage").EntityInfo
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
 if not Paper then
@@ -283,8 +299,52 @@ if Collected.Name == "Icon" then
            end
       end
 end})
-
-
+local RightMainI = Tab.Main:AddRightGroupbox("Notifying")
+RightMainI:AddToggle("MyToggle",{
+Text = "Entity Notifying",
+Default = Flags.EntityNotifying,
+Callback = function(v)
+_G.EntityNotifying = v
+end})
+RightMainI:AddDropdown('MyDropdown',{
+	Values = {'Lookman', 'Eyes', 'Jeff-The-Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
+	Default = 0,
+	Multi = true,
+	Text = 'Entity List',
+	Callback = function(Value)
+_G.EntityList = v
+if _G.EntityNotifying then
+EntityNotifying = workspace.ChildAdded:Connect(function(child)
+if _G.EntityList == "Lookman" then
+if child.Name == "BackdoorLookman" then
+Library:Notify("Lookman has spawn, dont look at it")
+elseif _G.EntityList == "Eyes" then
+elseif child.Name == "Eyes" then
+Library:Notify("Eyes has spawn, dont look at it")
+elseif _G.EntityList == "Jeff-The-Killer" then
+elseif child.Name == "JeffTheKiller" then
+Library:Notify("Jeff has spawn in next door, careful with it")
+elseif _G.EntityList == "Blitz" then
+elseif child.Name == "BackdoorRush" then
+Library:Notify("Blitz has spawn, hide now")
+elseif _G.EntityList == "Seek Chase" then
+elseif child.Name == "SeekMoving" then
+Library:Notify("Seek chase goodluck")
+elseif child.Name == "SeekNewCloneMoving" then
+Library:Notify("Seek chase goodluck")
+elseif _G.EntityList == "A60" then
+elseif child.Name == "A60" then
+Library:Notify("A60 has spawn, hide now")
+elseif _G.EntityList == "A120" then
+elseif child.Name == "A120" then
+Library:Notify("A120 has spawn, hide now")
+end
+end
+end)
+else
+EntityNotifying:Disconnect()
+end
+end})
 
 
 
