@@ -61,7 +61,7 @@ _G.KeybindI = "Q"
 LeftMainI:AddDropdown('MyDropdown',{
 	Values = {'Q', 'H', 'L'},
 	Default = 1,
-	Multi = true,
+	Multi = false,
 	Text = 'Closet Interact Keybind',
 	Callback = function(v)
 _G.KeybindI = v
@@ -111,8 +111,8 @@ _G.KeybindII = "X"
 LeftMainI:AddDropdown('MyDropdown',{
 	Values = {'X', 'Z', 'R'},
 	Default = 1,
-	Multi = true,
-	Text = 'Closet Interact Keybind',
+	Multi = false,
+	Text = 'Unlock Interact Keybind',
 	Callback = function(v)
 _G.KeybindII = v
 end})
@@ -313,7 +313,7 @@ _G.EntityNotifying = v
 end})
 RightMainI:AddDivider()
 _G.TimeNotifying = 1
-LeftMainI:AddSlider("MySlider",{
+RightMainI:AddSlider("MySlider",{
 Text = "Time Notifying",
 Default = Flags.TimeNotifying,
 Min = Flags.TimeNotifying,
@@ -335,7 +335,7 @@ if _G.EntityList == "Gloom Pile" then
 if child.Name == "GloomPile" then
 Notifying("Gloom Pile has spawn in next door, now off the light or lighter")
 elseif _G.EntityList == "Lookman" then
-if child.Name == "BackdoorLookman" then
+elseif child.Name == "BackdoorLookman" then
 Notifying("Lookman has spawn, dont look at it", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Eyes" then
 elseif child.Name == "Eyes" then
