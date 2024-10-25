@@ -43,7 +43,7 @@ local Flags = {
   VelocityLimit = false,
   VelocityLimitSet = 0,
   Footsteps = false,
-  ClosetSpamJack = false,
+  SpamOtherItems = false,
   Stunned = false,
   LagBody = false,
   DisableScreech = false,
@@ -284,7 +284,6 @@ if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A120 has spawn, hide")
 end
 end
-end
 end)
 else
 EntityNotifying:Disconnect()
@@ -502,5 +501,51 @@ VelocityLimiter.RelativeTo = Enum.ActuatorRelativeTo.World
 VelocityLimiter.Attachment0 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").rootPart:WaitForChild("RootAttachment")
 end
 end})
-
-
+local RightExploitsI = Tab.Exploits:AddRightGroupbox("Trolling")
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Spam Other Items",
+Default = Flags.SpamOtherItems,
+Callback = function(v)
+_G.WasteItems = v
+    while task.wait(0.5) do
+        if not _G.WasteItems then
+            break
+        end
+        for _,Player in pairs(game.Players:GetPlayers()) do
+            local function WasteItem(Item)
+                if Item.Parent ~= Character and Item.Parent.Parent ~= game.Players.LocalPlayer then
+                    if ((Item.Name == "Lighter" or Item.Name == "Flashlight") and Item:GetAttribute("Enabled") == false) or Item.Name == "Vitamins" then
+                        Item.Remote:FireServer()
+                    end
+                end
+            end
+            for _,Item in pairs(Player.Backpack:GetChildren()) do
+                WasteItem(Item)
+            end
+            for _,Item in pairs(Player.Character:GetChildren()) do
+                WasteItem(Item)
+            end
+        end
+    end
+end})
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Stunned",
+Default = Flags.Stunned,
+Callback = function(v)
+while task.wait(0.5) do
+game.Players.LocalPlayer.Character.Humanoid:SetAttribute("Stunned", v)
+end
+end})
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Stunned",
+Default = Flags.LagBody,
+Callback = function(v)
+_G.LagBody = v
+while task.wait(1.5) do
+if _G.LagBody then
+game.Players.LocalPlayer.Character.Humanoid.Anchored = true
+wait(0.5)
+game.Players.LocalPlayer.Character.Humanoid.Anchored = false
+end
+end
+end})
