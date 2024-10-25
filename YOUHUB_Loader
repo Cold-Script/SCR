@@ -27,13 +27,12 @@ local Flags = {
   LobbyOnDeath = false,
   InstanceInteract = false,
   CrossInteraction = false,
-  RemoteInteraction = true,
+  RemoteInteraction = false,
   RangeMultiplier = 1,
   AutoPadlockUnlock = false,
   EntityNotifying = false,
   NotifyingEntityChat = false,
-  PlaySound = false,
-  TimeNotify = 3,
+  TimeNotifying = 3,
   AntiSnare = false,
   AntiDupe = false,
   AntiVacuum = false,
@@ -58,20 +57,20 @@ local Flags = {
   LadderBypass = false
 }
 local LeftMainI = Tab.Main:AddLeftGroupbox("Automation")
-
+_G.KeybindI = "Q"
+LeftMainI:AddDropdown('MyDropdown',{
+	Values = {'Q', 'H', 'L'},
+	Default = 1,
+	Multi = true,
+	Text = 'Closet Interact Keybind',
+	Callback = function(v)
+_G.KeybindI = v
+end})
 LeftMainI:AddToggle("MyToggle",{
 Text = "Closet Interact",
 Default = Flags.ClosetInteract,
 Callback = function(v)
 _G.ClosetInteract = v
-end}):AddKeyPicker('KeyPicker',{
-	Default = 'Q',
-	SyncToggleState = false,
-	Mode = 'Always',
-	Text = 'Closet Interact',
-	NoUI = false,
-        Callback = function(v)
-_G.KeybindI = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.ClosetInteract then 
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
@@ -108,19 +107,20 @@ end
 end
 end)
 end})
+_G.KeybindII = "X"
+LeftMainI:AddDropdown('MyDropdown',{
+	Values = {'X', 'Z', 'R'},
+	Default = 1,
+	Multi = true,
+	Text = 'Closet Interact Keybind',
+	Callback = function(v)
+_G.KeybindII = v
+end})
 LeftMainI:AddToggle("MyToggle",{
 Text = "Unlock Interact",
 Default = Flags.UnlockInteract,
 Callback = function(v)
 _G.UnlockInteract = v
-end}):AddKeyPicker('KeyPicker',{
-	Default = 'X',
-	SyncToggleState = false,
-	Mode = 'Always',
-	Text = 'Closet Interact',
-	NoUI = false,
-        Callback = function(v)
-_G.KeybindII = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.UnlockInteract then 
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
@@ -203,6 +203,16 @@ end
 end
 end)
 end})
+LeftMainI:AddSlider("MySlider",{
+Text = "Range Multiplier",
+Default = Flags.RangeMultiplier,
+Min = Flags.RangeMultiplier,
+Max = 2,Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.MaxMultiplier = v
+end})
+
 LeftMainI:AddToggle("MyToggle",{
 Text = "Remote Interaction",
 Default = Flags.RemoteInteraction,
@@ -220,15 +230,7 @@ end
 end
 end)
 end})
-LeftMainI:AddSlider("MySlider",{
-Text = "Range Multiplier",
-Default = Flags.RangeMultiplier,
-Min = Flags.RangeMultiplier,
-Max = 2,Rounding = 1,
-Compact = true,
-Callback = function(v)
-_G.MaxMultiplier = v
-end})
+
 LeftMainI:AddDivider()
 LeftMainI:AddToggle("MyToggle",{
 Text = "Auto Padlock Unlock [50]",
@@ -309,38 +311,52 @@ Default = Flags.EntityNotifying,
 Callback = function(v)
 _G.EntityNotifying = v
 end})
+RightMainI:AddDivider()
+_G.TimeNotifying = 1
+LeftMainI:AddSlider("MySlider",{
+Text = "Time Notifying",
+Default = Flags.TimeNotifying,
+Min = Flags.TimeNotifying,
+Max = 3,Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.TimeNotifying = v
+end})
 RightMainI:AddDropdown('MyDropdown',{
-	Values = {'Lookman', 'Eyes', 'Jeff-The-Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
+	Values = {'Gloom Pile', 'Lookman', 'Eyes', 'Jeff The Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
 	Default = 0,
 	Multi = true,
 	Text = 'Entity List',
-	Callback = function(Value)
+	Callback = function(v)
 _G.EntityList = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if _G.EntityList == "Lookman" then
+if _G.EntityList == "Gloom Pile" then
+if child.Name == "GloomPile" then
+Notifying("Gloom Pile has spawn in next door, now off the light or lighter")
+elseif _G.EntityList == "Lookman" then
 if child.Name == "BackdoorLookman" then
-Library:Notify("Lookman has spawn, dont look at it")
+Notifying("Lookman has spawn, dont look at it", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Eyes" then
 elseif child.Name == "Eyes" then
-Library:Notify("Eyes has spawn, dont look at it")
+Notifying("Eyes has spawn, dont look at it", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Jeff-The-Killer" then
 elseif child.Name == "JeffTheKiller" then
-Library:Notify("Jeff has spawn in next door, careful with it")
+Notifying("Jeff has spawn in next door, careful with it", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Blitz" then
 elseif child.Name == "BackdoorRush" then
-Library:Notify("Blitz has spawn, hide now")
+Notifying("Blitz has spawn, hide now", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Seek Chase" then
 elseif child.Name == "SeekMoving" then
-Library:Notify("Seek chase goodluck")
+Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
 elseif child.Name == "SeekNewCloneMoving" then
-Library:Notify("Seek chase goodluck")
+Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "A60" then
 elseif child.Name == "A60" then
-Library:Notify("A60 has spawn, hide now")
+Notifying("A60 has spawn, hide now", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "A120" then
 elseif child.Name == "A120" then
-Library:Notify("A120 has spawn, hide now")
+Notifying("A120 has spawn, hide now", _G.TimeNotifying, 4590657391)
 end
 end
 end)
