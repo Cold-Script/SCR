@@ -218,14 +218,13 @@ Text = "Remote Interaction",
 Default = Flags.RemoteInteraction,
 Callback = function(v)
 _G.Reach = v
-game:GetService("RunService").RenderStepped:Connect(function()
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.Reach then return end
 if v:IsA("ProximityPrompt") then
 if _G.Reach then
 v.MaxActivationDistance = _G.MaxMultiplier or 1
 else
 v.MaxActivationDistance = Flags.RangeMultiplier
-end
 end
 end
 end)
@@ -443,10 +442,107 @@ Default = Flags.AntiDupe,
 Callback = function(v)
 _G.AntiSnare = v
 end})
-
-
-
-
-
-
-
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiChandelier then 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("ChandelierObstruction") then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "ChandelierObstruction" then 
+v.HurtPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Chandelier",
+Default = Flags.AntiChandelier,
+Callback = function(v)
+_G.AntiChandelier = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiSeekArms then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Seek_Arm") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "Seek_Arm" then 
+v.AnimatorPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Seek Arms",
+Default = Flags.AntiSeekArms,
+Callback = function(v)
+_G.AntiSeekArms = v
+end})
+game:GetService("Workspace").DescendantAdded:Connect(function()
+if not _G.AntiEyes then return end
+if _G.AntiEyes then 
+if workspace:FindFirstChild("Eyes") then 
+game:GetService("ReplicatedStorage").EntityInfo.MotorReplication:FireServer(0,(_G.AntiEyes and 120) or 0 ,0,false);
+end 
+end 
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Eyes",
+Default = Flags.AntiEyes,
+Callback = function(v)
+_G.AntiEyes = v
+end})
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function()
+if _G.AntiLookman then 
+if workspace:FindFirstChild("BackdoorLookman") then 
+game:GetService("ReplicatedStorage").EntityInfo.MotorReplication:FireServer(0,(_G.AntiLookman and 120) or 0 ,0,false)
+end
+end
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Lookman",
+Default = Flags.AntiLookman,
+Callback = function(v)
+_G.AntiLookman = v
+end})
+game:GetService("workspace").DescendantAdded:Connect(function(v)
+if not _G.AntiBanana then return end
+if v:IsA("Part") then
+if _G.AntiBanana then
+if v.Name == "BananaPeel" then
+v.CanTouch = false
+v.CanCollide = false
+end
+end
+end
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Banana",
+Default = false,
+Callback = function(v)
+_G.AntiBanana = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()pcall(function()
+wait(0.5)
+if _G.AntiJeff then for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Knife.CanTouch = false 
+v.Knife.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Head.CanTouch = false 
+v.Head.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v.HumanoidRootPart.CanTouch=false v.HumanoidRootPart.CanCollide=false;end end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v["Left Arm"].CanTouch=false v["Left Arm"].CanCollide=false;end end
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v["Left Leg"].CanTouch=false v["Left Leg"].CanCollide=false;end end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v["Right Arm"].CanTouch=false v["Right Arm"].CanCollide=false;end end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v["Right Leg"].CanTouch=false v["Right Leg"].CanCollide=false;end end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if (v.Name=="JeffTheKiller") then v.Torso.CanTouch=false v.Torso.CanCollide=false;end end end end);end);
