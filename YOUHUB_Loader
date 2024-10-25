@@ -676,3 +676,22 @@ else
 _G.Wait = 5
 end
 end})
+RightExploitsIII:AddDivider()
+RightExploitsIII:AddToggle("MyToggle",{
+Text = "Ladder Bypass",
+Default = Flags.SpeedBypass,
+Callback = function(v)
+if v then
+local progressPart = Instance.new("Part", Workspace) do
+progressPart.Anchored = true
+progressPart.CanCollide = false
+progressPart.Name = "_internal_mspaint_acbypassprogress"
+progressPart.Transparency = 1
+Notifying("Climb Ladder to bypass", 5, 4590657391)
+end
+else
+if workspace:FindFirstChild("_internal_mspaint_acbypassprogress") then 
+workspace:FindFirstChild("_internal_mspaint_acbypassprogress"):Destroy() 
+end
+end
+end})
