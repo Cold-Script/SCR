@@ -520,9 +520,11 @@ Default = false,
 Callback = function(v)
 _G.AntiBanana = v
 end})
-game:GetService("RunService").RenderStepped:Connect(function()pcall(function()
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
 wait(0.5)
-if _G.AntiJeff then for _,v in pairs(game.workspace:GetChildren()) do 
+if _G.AntiJeff then 
+for _,v in pairs(game.workspace:GetChildren()) do 
 if v.Name == "JeffTheKiller" then 
 v.Knife.CanTouch = false 
 v.Knife.CanCollide = false
@@ -535,14 +537,47 @@ v.Head.CanCollide = false
 end 
 end 
 for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v.HumanoidRootPart.CanTouch=false v.HumanoidRootPart.CanCollide=false;end end 
+if v.Name == "JeffTheKiller" then 
+v.HumanoidRootPart.CanTouch = false 
+v.HumanoidRootPart.CanCollide = false
+end 
+end 
 for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v["Left Arm"].CanTouch=false v["Left Arm"].CanCollide=false;end end
+if v.Name == "JeffTheKiller" then 
+v["Left Arm"].CanTouch = false 
+v["Left Arm"].CanCollide = false
+end 
+end
 for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v["Left Leg"].CanTouch=false v["Left Leg"].CanCollide=false;end end 
+if v.Name == "JeffTheKiller" then 
+v["Left Leg"].CanTouch = false 
+v["Left Leg"].CanCollide = false
+end 
+end 
 for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v["Right Arm"].CanTouch=false v["Right Arm"].CanCollide=false;end end 
+if v.Name == "JeffTheKiller" then 
+v["Right Arm"].CanTouch = false 
+v["Right Arm"].CanCollide = false
+end 
+end 
 for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v["Right Leg"].CanTouch=false v["Right Leg"].CanCollide=false;end end 
-for _,v in pairs(game.workspace:GetChildren()) do 
-if (v.Name=="JeffTheKiller") then v.Torso.CanTouch=false v.Torso.CanCollide=false;end end end end);end);
+if v.Name == "JeffTheKiller" then 
+v["Right Leg"].CanTouch = false 
+v["Right Leg"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do
+if v.Name == "JeffTheKiller" then 
+v.Torso.CanTouch = false 
+v.Torso.CanCollide = false
+end 
+end 
+end 
+end)
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Jeff",
+Default = Flags.AntiJeffTheKiller,
+Callback = function(v)
+_G.AntiJeff = v
+end})
