@@ -20,8 +20,6 @@ local Tab = {
 }
 
 local Flags = {
-  ClosetInteract = false,
-  UnlockInteract = false,
   ReviveOnDeath = false,
   ReplayOnDeath = false,
   LobbyOnDeath = false,
@@ -57,86 +55,6 @@ local Flags = {
   LadderBypass = false
 }
 local LeftMainI = Tab.Main:AddLeftGroupbox("Automation")
-_G.KeybindI = "Q"
-LeftMainI:AddDropdown('MyDropdown',{
-	Values = {'Q', 'H', 'L'},
-	Default = 1,
-	Multi = false,
-	Text = 'Closet Interact Keybind',
-	Callback = function(v)
-_G.KeybindI = v
-end})
-LeftMainI:AddToggle("MyToggle",{
-Text = "Closet Interact",
-Default = Flags.ClosetInteract,
-Callback = function(v)
-_G.ClosetInteract = v
-game:GetService("RunService").RenderStepped:Connect(function()
-if _G.ClosetInteract then 
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "Wardrobe" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-elseif v.Name == "BackdoorWardrobe" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-elseif v.Name == "RetroWardrobe" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-elseif v.Name == "Locker_Large" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-elseif v.Name == "Rooms_Locker" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-elseif v.Name == "Rooms_Frigde" then
-v.HidePrompt.KeyboardKeyCode = _G.KeybindI
-end
-end
-else
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "Wardrobe" then
-v.HidePrompt.KeyboardKeyCode = "E"
-elseif v.Name == "BackdoorWardrobe" then
-v.HidePrompt.KeyboardKeyCode = "E"
-elseif v.Name == "RetroWardrobe" then
-v.HidePrompt.KeyboardKeyCode = "E"
-elseif v.Name == "Locker_Large" then
-v.HidePrompt.KeyboardKeyCode = "E"
-elseif v.Name == "Rooms_Locker" then
-v.HidePrompt.KeyboardKeyCode = "E"
-elseif v.Name == "Rooms_Frigde" then
-v.HidePrompt.KeyboardKeyCode = "E"
-end
-end
-end
-end)
-end})
-_G.KeybindII = "X"
-LeftMainI:AddDropdown('MyDropdown',{
-	Values = {'X', 'Z', 'R'},
-	Default = 1,
-	Multi = false,
-	Text = 'Unlock Interact Keybind',
-	Callback = function(v)
-_G.KeybindII = v
-end})
-LeftMainI:AddToggle("MyToggle",{
-Text = "Unlock Interact",
-Default = Flags.UnlockInteract,
-Callback = function(v)
-_G.UnlockInteract = v
-game:GetService("RunService").RenderStepped:Connect(function()
-if _G.UnlockInteract then 
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "Door" then
-v.Lock.UnlockPrompt.KeyboardKeyCode = _G.KeybindII
-end
-end
-else
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "Door" then
-v.Lock.UnlockPrompt.KeyboardKeyCode = "E"
-end
-end
-end
-end)
-end})
 
 LeftMainI:AddToggle("MyToggle",{
 Text = "Revive On Death",
@@ -157,6 +75,7 @@ _G.ReplayOnDeath = v
 game:GetService("RunService").RenderStepped:Connect(function()
 wait(5)
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReplayOnDeath then
+wait(5)
 game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
 end
 end)
@@ -428,11 +347,6 @@ v:WaitForChild("Hidden").CanTouch = false
 if v:FindFirstChild("LockPart") then
 v.LockPart:WaitForChild("UnlockPrompt", 1).Enabled = false
 end
-v.Door.Color = Color3.new(0.5)
-v.Door.SignPart.Color = Color3.new(0.5,0,0)
-for _,DoorNumber in pairs({v.Sign.Stinker,Object.Sign.Stinker.Highlight,v.Sign.Stinker.Shadow}) do
-DoorNumber.Text = "DUPE"
-end
 end
 end
 end)
@@ -503,7 +417,7 @@ Default = Flags.AntiLookman,
 Callback = function(v)
 _G.AntiLookman = v
 end})
-game:GetService("workspace").DescendantAdded:Connect(function(v)
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
 if not _G.AntiBanana then return end
 if v:IsA("Part") then
 if _G.AntiBanana then
