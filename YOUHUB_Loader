@@ -657,6 +657,7 @@ task.wait(_G.Wait or 5)
 end           
 collisionClone.Massless = true                  
 end)
+end
 RightExploitsIII:AddSlider("MySlider",{
 Text = "Bypass Time Limit",
 Default = Flags.BypassTime,
