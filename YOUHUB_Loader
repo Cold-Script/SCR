@@ -323,7 +323,7 @@ Callback = function(v)
 _G.TimeNotifying = v
 end})
 RightMainI:AddDropdown('MyDropdown',{
-	Values = {'Gloom Pile', 'Lookman', 'Eyes', 'Jeff The Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
+	Values = {'Rush', 'Ambush', 'Gloom Pile', 'Lookman', 'Eyes', 'Jeff The Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
 	Default = 0,
 	Multi = true,
 	Text = 'Entity List',
@@ -331,9 +331,15 @@ RightMainI:AddDropdown('MyDropdown',{
 _G.EntityList = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if _G.EntityList == "Gloom Pile" then
-if child.Name == "GloomPile" then
-Notifying("Gloom Pile has spawn in next door, now off the light or lighter")
+if _G.EntityList == "Rush" then
+if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
+Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
+elseif _G.EntityList == "Ambush" then
+elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
+Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
+elseif _G.EntityList == "Gloom Pile" then
+elseif child.Name == "GloomPile" then
+Notifying("Gloom Pile has spawn in next door, now off the light or lighter", _G.TimeNotifying, 4590657391)
 elseif _G.EntityList == "Lookman" then
 elseif child.Name == "BackdoorLookman" then
 Notifying("Lookman has spawn, dont look at it", _G.TimeNotifying, 4590657391)
