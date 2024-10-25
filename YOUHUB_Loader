@@ -679,7 +679,7 @@ end})
 RightExploitsIII:AddDivider()
 RightExploitsIII:AddToggle("MyToggle",{
 Text = "Ladder Bypass",
-Default = Flags.SpeedBypass,
+Default = Flags.LadderBypass,
 Callback = function(v)
 if v then
 local progressPart = Instance.new("Part", Workspace) do
