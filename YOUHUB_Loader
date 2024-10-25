@@ -400,9 +400,19 @@ else
 EntityNotifying:Disconnect()
 end
 end})
-
-LeftExploitsI = Tab.Exploits:AddLeftGroupbox("Self")
-
+RightMainI:AddToggle("MyToggle",{
+Text = "Entity Notifying Chat",
+Default = Flags.NotifyingEntityChat,
+Callback = function(v)
+_G.NotifyingEntityChat = v
+end})
+local LeftExploitsI = Tab.Exploits:AddLeftGroupbox("Self")
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Snare",
+Default = Flags.AntiSnare,
+Callback = function(v)
+_G.AntiSnare = v
+end})
 
 
 
