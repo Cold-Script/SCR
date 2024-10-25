@@ -329,10 +329,17 @@ game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
 if not _G.AntiDupe then return end
 if _G.AntiDupe then
 if v.Name == "DoorFake" then
-v:WaitForChild("Hidden").CanTouch = false
-if v:FindFirstChild("LockPart") then
-v.LockPart:WaitForChild("UnlockPrompt", 1).Enabled = false
-end
+v.Hidden.CanTouch = false
+v.Door.Color = Color3.new(0.5)
+v.Door.SignPart.Color = Color3.new(0.5)
+v.Door.Plate.Color = Color3.new(0.5)
+v.Door.Knob.Color = Color3.new(0.5)
+v.Sign.Stinker.Text = "DUPE"
+v.Sign.Stinker.Highlight.Text = "DUPE"
+v.Sign.Stinker.Shadow.Text = "DUPE"
+elseif v.Name == "SideroomSpace" then
+v.Collision.CanTouch = false
+v.Collision.CanCollide = true
 end
 end
 end)
