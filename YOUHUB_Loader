@@ -407,13 +407,42 @@ Callback = function(v)
 _G.NotifyingEntityChat = v
 end})
 local LeftExploitsI = Tab.Exploits:AddLeftGroupbox("Self")
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.AntiSnare then return end
+if v.Name == "Snare" then
+if _G.AntiSnare then
+v.Hitbox.CanTouch = false
+end
+end
+end)
 LeftExploitsI:AddToggle("MyToggle",{
 Text = "Anti-Snare",
 Default = Flags.AntiSnare,
 Callback = function(v)
 _G.AntiSnare = v
 end})
-
+game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+if not _G.AntiDupe then return end
+if _G.AntiDupe then
+if v.Name == "DoorFake" then
+v:WaitForChild("Hidden").CanTouch = false
+if v:FindFirstChild("LockPart") then
+v.LockPart:WaitForChild("UnlockPrompt", 1).Enabled = false
+end
+v.Door.Color = Color3.new(0.5)
+v.Door.SignPart.Color = Color3.new(0.5,0,0)
+for _,DoorNumber in pairs({v.Sign.Stinker,Object.Sign.Stinker.Highlight,v.Sign.Stinker.Shadow}) do
+DoorNumber.Text = "DUPE"
+end
+end
+end
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Dupe",
+Default = Flags.AntiDupe,
+Callback = function(v)
+_G.AntiSnare = v
+end})
 
 
 
