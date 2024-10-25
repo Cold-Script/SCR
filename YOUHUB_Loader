@@ -624,3 +624,55 @@ Default = Flags.DisabledSeekTrigger,
 Callback = function(v)
 _G.SeekChase = v
 end})
+local RightExploitsIII = Tab.Exploits:AddRightGroupbox("Bypass")
+local character = game.Players.LocalPlayer.Character
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+local speedBoost, speedBoostFinished, speed = 30, false, false
+if bypass then
+if collisionClone then collisionClone:Destroy() end
+speed = true       
+local originalSpeed = SpeedBypass
+repeat task.wait()
+if not SpeedBypass then
+SpeedBypass:SetValue(true)
+end
+until speedBoostFinished
+SpeedBypass:SetValue(originalSpeed)
+else
+if not collisionClone then
+collisionClone = character.Collision:Clone() do
+collisionClone.CanCollide = false
+collisionClone.Massless = true
+collisionClone.Name = "CollisionClone"
+if collisionClone:FindFirstChild("CollisionCrouch") then
+collisionClone.CollisionCrouch:Destroy()
+end   
+collisionClone.Parent = character    
+end
+end
+task.spawn(function()  
+while not speedBoostFinished do
+collisionClone.Massless = not collisionClone.Massless
+task.wait(_G.Wait or 5)
+end           
+collisionClone.Massless = true                  
+end)
+RightExploitsIII:AddSlider("MySlider",{
+Text = "Bypass Time Limit",
+Default = Flags.BypassTime,
+Min = Flags.BypassTime,
+Max = 0.25,Rounding = 2,
+Compact = true,
+Callback = function(v)
+_G.Time = v
+end})
+RightExploitsIII:AddToggle("MyToggle",{
+Text = "Speed Bypass",
+Default = Flags.SpeedBypass,
+Callback = function(v)
+if v then
+_G.Wait = _G.Time or 0.2
+else
+_G.Wait = 5
+end
+end})
