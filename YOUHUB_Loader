@@ -46,10 +46,10 @@ local Flags = {
   Stunned = false,
   LagBody = false,
   SpamMotorReplicated = false,
-  DisableScreech = false,
-  DisableA90 = false,
-  DisableHalt = false,
-  DisableSeekTrigger = false,
+  DisabledScreech = false,
+  DisabledA90 = false,
+  DisabledHalt = false,
+  DisabledSeekTrigger = false,
   BypassTime = 0.2,
   SpeedBypass = false,
   LadderBypass = false
@@ -569,7 +569,7 @@ end
 end})
 local RightExploitsII = Tab.Exploits:AddRightGroupbox("Removal")
 RightExploitsII:AddToggle("MyToggle",{
-Text = "Diabled Screech",
+Text = "Disable Screech",
 Default = Flags.DisabledScreech,
 Callback = function(v)
 if v then
@@ -588,7 +588,7 @@ A90J.Parent = nil
 end
 end)
 RightExploitsI:AddToggle("MyToggle",{
-Text = "Disabled A90",
+Text = "Disable A90",
 Default = Flags.DisabledA90,
 Callback = function(v)
 _G.RemoveA90 = v
@@ -604,7 +604,7 @@ game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = 
 end
 end)
 RightExploitsI:AddToggle("MyToggle",{
-Text = "Disabled Halt",
+Text = "Disable Halt",
 Default = Flags.DisabledHalt,
 Callback = function(v)
 _G.RemoveHalt = v
@@ -619,7 +619,7 @@ end
 end
 end)
 RightExploitsI:AddToggle("MyToggle",{
-Text = "Disabled Seek Trigger",
+Text = "Disable Seek Trigger",
 Default = Flags.DisabledSeekTrigger,
 Callback = function(v)
 _G.SeekChase = v
