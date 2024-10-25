@@ -218,7 +218,7 @@ Text = "Remote Interaction",
 Default = Flags.RemoteInteraction,
 Callback = function(v)
 _G.Reach = v
-game:GetService("RunService").RenderStepped:Connect(function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
 for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v:IsA("ProximityPrompt") then
 if _G.Reach then
@@ -317,7 +317,7 @@ RightMainI:AddSlider("MySlider",{
 Text = "Time Notifying",
 Default = Flags.TimeNotifying,
 Min = Flags.TimeNotifying,
-Max = 3,Rounding = 1,
+Max = 5,Rounding = 1,
 Compact = true,
 Callback = function(v)
 _G.TimeNotifying = v
@@ -334,35 +334,65 @@ EntityNotifying = workspace.ChildAdded:Connect(function(child)
 if _G.EntityList == "Rush" then
 if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
 Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush has spawn, hide")
+end
 elseif _G.EntityList == "Ambush" then
 elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
 Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush has spawn, hide")
+end
 elseif _G.EntityList == "Gloom Pile" then
 elseif child.Name == "GloomPile" then
-Notifying("Gloom Pile has spawn in next door, now off the light or lighter", _G.TimeNotifying, 4590657391)
+Notifying("Gloom Pile has spawn in next door, now off the light or lighter of you", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Gloom Pile has spawn in next door, now off the light or lighter of you")
+end
 elseif _G.EntityList == "Lookman" then
 elseif child.Name == "BackdoorLookman" then
 Notifying("Lookman has spawn, dont look at it", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Lookman has spawn, dont look at it")
+end
 elseif _G.EntityList == "Eyes" then
 elseif child.Name == "Eyes" then
 Notifying("Eyes has spawn, dont look at it", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes has spawn, dont look at it")
+end
 elseif _G.EntityList == "Jeff-The-Killer" then
 elseif child.Name == "JeffTheKiller" then
 Notifying("Jeff has spawn in next door, careful with it", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Jeff The Killer, careful it")
+end
 elseif _G.EntityList == "Blitz" then
 elseif child.Name == "BackdoorRush" then
 Notifying("Blitz has spawn, hide now", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Blitz has spawn, hide")
+end
 elseif _G.EntityList == "Seek Chase" then
 elseif child.Name == "SeekMoving" then
 Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
 elseif child.Name == "SeekNewCloneMoving" then
 Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase, concentrate as much as possible")
+end
 elseif _G.EntityList == "A60" then
 elseif child.Name == "A60" then
 Notifying("A60 has spawn, hide now", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A60 has spawn, hide")
+end
 elseif _G.EntityList == "A120" then
 elseif child.Name == "A120" then
 Notifying("A120 has spawn, hide now", _G.TimeNotifying, 4590657391)
+if _G.NotifyingEntityChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A120 has spawn, hide")
+end
 end
 end
 end)
@@ -371,7 +401,7 @@ EntityNotifying:Disconnect()
 end
 end})
 
-
+LeftExploitsI = Tab.Exploits:AddLeftGroupbox("Self")
 
 
 
