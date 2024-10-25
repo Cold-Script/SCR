@@ -495,3 +495,29 @@ Default = Flags.AntiJeffTheKiller,
 Callback = function(v)
 _G.AntiJeff = v
 end})
+LeftExploitsI:AddDivider()
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Velocity Limit",
+Default = Flags.VelocityLimit,
+Callback = function(v)
+_G.VelocityLimit = v
+end})
+LeftExploitsI:AddSlider("MySlider",{
+Text = "Velocity Limit",
+Default = Flags.VelocityLimitSet,
+Min = Flags.VelocityLimitSet,
+Max = 5,Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.VelocityLimitSet = v or 0
+if _G.VelocityLimit then
+local VelocityLimiter = Instance.new("LinearVelocity", game.Players.LocalPlayer.Character)
+VelocityLimiter.Enabled = true
+VelocityLimiter.MaxForce = math.huge
+VelocityLimiter.VectorVelocity = Vector3.new(_G.VelocityLimitSet, _G.VelocityLimitSet, _G.VelocityLimitSet)
+VelocityLimiter.RelativeTo = Enum.ActuatorRelativeTo.World
+VelocityLimiter.Attachment0 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").rootPart:WaitForChild("RootAttachment")
+end
+end})
+
+
