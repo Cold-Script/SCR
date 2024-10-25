@@ -40,6 +40,9 @@ local Flags = {
   AntiLookman = false,
   AntiBanana = false,
   AntiJeffTheKiller = false,
+  AntiGiggle = false,
+  AntiSeekFlood = false,
+  AntiGloomEgg = false,
   VelocityLimit = false,
   VelocityLimitSet = 0,
   SpamOtherItems = false,
@@ -49,7 +52,8 @@ local Flags = {
   DisabledScreech = false,
   DisabledA90 = false,
   DisabledHalt = false,
-  DisabledSeekTrigger = false,
+  DisabledSeekTriggerFE = false,
+  DisabledMinecartTriggerFE = false,
   BypassTime = 0.2,
   SpeedBypass = false,
   LadderBypass = false
@@ -477,6 +481,67 @@ Default = Flags.AntiJeffTheKiller,
 Callback = function(v)
 _G.AntiJeff = v
 end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.AntiGiggle then
+for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
+for _, giggle in pairs(room:GetChildren()) do
+if giggle.Name == "GiggleCeiling" then
+giggle:WaitForChild("Hitbox", 5).CanTouch = not true
+end
+end
+end
+end
+end)
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Giggle",
+Default = Flags.AntiGiggle,
+Callback = function(v)
+_G.AntiGiggle = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.AntiGloomEgg then
+for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
+for _, gloomPile in pairs(room:GetChildren()) do
+if gloomPile.Name == "GloomPile" then
+for _, gloomEgg in pairs(gloomPile:GetDescendants()) do
+if gloomEgg.Name == "Egg" then
+gloomEgg.CanTouch = not true
+end
+end
+end
+end
+end
+end
+end)
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Gloom Egg",
+Default = Flags.AntiGloomEgg,
+Callback = function(v)
+_G.AntiGloomEgg = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()if _G.AntiDam then
+local room = workspace.CurrentRooms:FindFirstChild("100")
+if room and room:FindFirstChild("_DamHandler") then
+local seekFlood = room._DamHandler:FindFirstChild("SeekFloodline")
+if _G.AntiDam then
+seekFlood.CanCollide = false
+seekFlood.CanTouch = false
+end
+end
+end
+end)
+end)
+LeftExploitsI:AddToggle("MyToggle",{
+Text = "Anti-Seek Flood",
+Default = Flags.AntiSeekFlood,
+Callback = function(v)
+_G.AntiDam = v
+end})
 LeftExploitsI:AddDivider()
 LeftExploitsI:AddToggle("MyToggle",{
 Text = "Velocity Limit",
@@ -534,7 +599,7 @@ Text = "Stunned",
 Default = Flags.Stunned,
 Callback = function(v)
 _G.Stunned = v
-while task.wait(0.5) do
+while task.wait() do
 if _G.Stunned then
 game.Players.LocalPlayer.Character.Humanoid:SetAttribute("Stunned", true)
 else
@@ -587,7 +652,7 @@ A90.Parent = nil
 A90J.Parent = nil
 end
 end)
-RightExploitsI:AddToggle("MyToggle",{
+RightExploitsII:AddToggle("MyToggle",{
 Text = "Disable A90",
 Default = Flags.DisabledA90,
 Callback = function(v)
@@ -603,7 +668,7 @@ if _G.RemoveHalt then
 game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
 end
 end)
-RightExploitsI:AddToggle("MyToggle",{
+RightExploitsII:AddToggle("MyToggle",{
 Text = "Disable Halt",
 Default = Flags.DisabledHalt,
 Callback = function(v)
@@ -613,16 +678,32 @@ game:GetService("RunService").RenderStepped:Connect(function()
 if _G.SeekChase then
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
+Notifying("Seek Trigger Delete, The Chase is Easy")
 v:Destroy()
 end
 end
 end
 end)
-RightExploitsI:AddToggle("MyToggle",{
-Text = "Disable Seek Trigger",
-Default = Flags.DisabledSeekTrigger,
+RightExploitsII:AddToggle("MyToggle",{
+Text = "Disable Seek Trigger [FE]",
+Default = Flags.DisabledSeekTriggerFE,
 Callback = function(v)
 _G.SeekChase = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiMinecart then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "MinecartCollision" then
+v:Destroy()
+end
+end
+end
+end)
+RightExploitsII:AddToggle("MyToggle",{
+Text = "Disable Minecart Trigger [FE]",
+Default = Flags.DisabledMinecartTriggerFE,
+Callback = function(v)
+_G.AntiMinecart = v
 end})
 local RightExploitsIII = Tab.Exploits:AddRightGroupbox("Bypass")
 local character = game.Players.LocalPlayer.Character
