@@ -42,10 +42,10 @@ local Flags = {
   AntiJeffTheKiller = false,
   VelocityLimit = false,
   VelocityLimitSet = 0,
-  Footsteps = false,
   SpamOtherItems = false,
   Stunned = false,
   LagBody = false,
+  SpamMotorReplicated = false,
   DisableScreech = false,
   DisableA90 = false,
   DisableHalt = false,
@@ -231,12 +231,12 @@ Callback = function(v)
 _G.EntityNotifying = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
+if child.Name == "RushMoving" and (game.Players.LocalPlayer.Character.HumanoidRootPart:DistanceFromCharacter(child:GetPivot().Position) <1000) then
 Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush has spawn, hide")
 end
-elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
+elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer.Character.HumanoidRootPart:DistanceFromCharacter(child:GetPivot().Position)<1000) then
 Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush has spawn, hide")
@@ -491,6 +491,7 @@ Min = Flags.VelocityLimitSet,
 Max = 5,Rounding = 1,
 Compact = true,
 Callback = function(v)
+VelocityLimit:Destroy()
 _G.VelocityLimitSet = v or 0
 if _G.VelocityLimit then
 local VelocityLimiter = Instance.new("LinearVelocity", game.Players.LocalPlayer.Character)
@@ -503,7 +504,7 @@ end
 end})
 local RightExploitsI = Tab.Exploits:AddRightGroupbox("Trolling")
 RightExploitsI:AddToggle("MyToggle",{
-Text = "Spam Other Items",
+Text = "Waste Spam Items",
 Default = Flags.SpamOtherItems,
 Callback = function(v)
 _G.WasteItems = v
@@ -532,20 +533,94 @@ RightExploitsI:AddToggle("MyToggle",{
 Text = "Stunned",
 Default = Flags.Stunned,
 Callback = function(v)
+_G.Stunned = v
 while task.wait(0.5) do
-game.Players.LocalPlayer.Character.Humanoid:SetAttribute("Stunned", v)
+if _G.Stunned then
+game.Players.LocalPlayer.Character.Humanoid:SetAttribute("Stunned", true)
+else
+game.Players.LocalPlayer.Character.Humanoid:SetAttribute("Stunned", false)
+end
 end
 end})
 RightExploitsI:AddToggle("MyToggle",{
-Text = "Stunned",
+Text = "Lag Move",
 Default = Flags.LagBody,
 Callback = function(v)
 _G.LagBody = v
 while task.wait(1.5) do
 if _G.LagBody then
-game.Players.LocalPlayer.Character.Humanoid.Anchored = true
+game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
 wait(0.5)
-game.Players.LocalPlayer.Character.Humanoid.Anchored = false
+game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 end
 end
+end})
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Spam Motor Replication",
+Default = Flags.SpamMotorReplication,
+Callback = function(v)
+if v then
+SpoofMotor = game:GetService("RunService").Heartbeat:Connect(function()
+game:GetService("ReplicatedStorage").EntityInfo.MotorReplication:FireServer(math.random(1,100000),math.random(1,100000),math.random(1,100000),false)
+end)
+else
+SpoofMotor:Disconnect()
+end
+end})
+local RightExploitsII = Tab.Exploits:AddRightGroupbox("Removal")
+RightExploitsII:AddToggle("MyToggle",{
+Text = "Diabled Screech",
+Default = Flags.DisabledScreech,
+Callback = function(v)
+if v then
+local Screech = game:GetService("ReplicatedStorage").Entities.Screech:Destroy()
+else
+Screech:Disconnect()
+end
+end})
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
+if not _G.RemoveA90 then return end
+if _G.RemoveA90 then
+local A90 = game.ReplicatedStorage:WaitForChild("EntityInfo"):WaitForChild("A90")
+local A90J = game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90")
+A90.Parent = nil
+A90J.Parent = nil
+end
+end)
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Disabled A90",
+Default = Flags.DisabledA90,
+Callback = function(v)
+_G.RemoveA90 = v
+if _G.RemoveA90 == false then
+A90.Parent = game.ReplicatedStorage:WaitForChild("EntityInfo")
+A90J.Parent = game.Players.LocalPlayers.PlayerGui.MainUI.Jumpscare
+end
+end})
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
+if not _G.RemoveHalt then return end
+if _G.RemoveHalt then
+game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
+end
+end)
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Disabled Halt",
+Default = Flags.DisabledHalt,
+Callback = function(v)
+_G.RemoveHalt = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.SeekChase then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "TriggerEventCollision" then
+v:Destroy()
+end
+end
+end
+end)
+RightExploitsI:AddToggle("MyToggle",{
+Text = "Disabled Seek Trigger",
+Default = Flags.DisabledSeekTrigger,
+Callback = function(v)
+_G.SeekChase = v
 end})
