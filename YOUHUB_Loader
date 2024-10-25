@@ -126,7 +126,7 @@ LeftMainI:AddSlider("MySlider",{
 Text = "Range Multiplier",
 Default = Flags.RangeMultiplier,
 Min = Flags.RangeMultiplier,
-Max = 2,Rounding = 1,
+Max = 10,Rounding = 1,
 Compact = true,
 Callback = function(v)
 _G.MaxMultiplier = v
@@ -222,76 +222,50 @@ end})
 function Notifying(text, time, sound)
 Library:Notify(text, time, sound)
 end
+_G.TimeNotifying = 1
 local RightMainI = Tab.Main:AddRightGroupbox("Notifying")
 RightMainI:AddToggle("MyToggle",{
 Text = "Entity Notifying",
 Default = Flags.EntityNotifying,
 Callback = function(v)
 _G.EntityNotifying = v
-end})
-RightMainI:AddDivider()
-_G.TimeNotifying = 1
-RightMainI:AddSlider("MySlider",{
-Text = "Time Notifying",
-Default = Flags.TimeNotifying,
-Min = Flags.TimeNotifying,
-Max = 5,Rounding = 1,
-Compact = true,
-Callback = function(v)
-_G.TimeNotifying = v
-end})
-RightMainI:AddDropdown('MyDropdown',{
-	Values = {'Rush', 'Ambush', 'Gloom Pile', 'Lookman', 'Eyes', 'Jeff The Killer', 'Blitz', 'Seek Chase', 'A60', 'A120'},
-	Default = 0,
-	Multi = true,
-	Text = 'Entity List',
-	Callback = function(v)
-_G.EntityList = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if _G.EntityList == "Rush" then
 if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
 Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush has spawn, hide")
 end
-elseif _G.EntityList == "Ambush" then
 elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) then
 Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush has spawn, hide")
 end
-elseif _G.EntityList == "Gloom Pile" then
 elseif child.Name == "GloomPile" then
 Notifying("Gloom Pile has spawn in next door, now off the light or lighter of you", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Gloom Pile has spawn in next door, now off the light or lighter of you")
 end
-elseif _G.EntityList == "Lookman" then
 elseif child.Name == "BackdoorLookman" then
 Notifying("Lookman has spawn, dont look at it", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Lookman has spawn, dont look at it")
 end
-elseif _G.EntityList == "Eyes" then
 elseif child.Name == "Eyes" then
 Notifying("Eyes has spawn, dont look at it", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes has spawn, dont look at it")
 end
-elseif _G.EntityList == "Jeff-The-Killer" then
 elseif child.Name == "JeffTheKiller" then
 Notifying("Jeff has spawn in next door, careful with it", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Jeff The Killer, careful it")
 end
-elseif _G.EntityList == "Blitz" then
 elseif child.Name == "BackdoorRush" then
 Notifying("Blitz has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Blitz has spawn, hide")
 end
-elseif _G.EntityList == "Seek Chase" then
 elseif child.Name == "SeekMoving" then
 Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
 elseif child.Name == "SeekNewCloneMoving" then
@@ -299,13 +273,11 @@ Notifying("Seek chase goodluck", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase, concentrate as much as possible")
 end
-elseif _G.EntityList == "A60" then
 elseif child.Name == "A60" then
 Notifying("A60 has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A60 has spawn, hide")
 end
-elseif _G.EntityList == "A120" then
 elseif child.Name == "A120" then
 Notifying("A120 has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
@@ -318,6 +290,17 @@ else
 EntityNotifying:Disconnect()
 end
 end})
+RightMainI:AddDivider()
+RightMainI:AddSlider("MySlider",{
+Text = "Time Notifying",
+Default = Flags.TimeNotifying,
+Min = Flags.TimeNotifying,
+Max = 5,Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.TimeNotifying = v
+end})
+
 RightMainI:AddToggle("MyToggle",{
 Text = "Entity Notifying Chat",
 Default = Flags.NotifyingEntityChat,
