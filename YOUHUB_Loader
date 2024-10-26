@@ -817,7 +817,13 @@ Callback = function(v)
 workspace.CurrentCamera.FieldOfViewMode = v
 end})
 local RightVisualI = Tab.Visual:AddRightGroupbox("World")
-
+RightVisualI:AddColorPicker('ColorPicker3', {
+	Default = Color3.new(0, 0, 1),
+	Text = 'Ambient',
+	Transparency = 0,
+	Callback = function(v)
+_G.Ambient = v
+end})
 RightVisualI:AddToggle("MyToggle",{
 Text = "Fullbright",
 Default = false,
