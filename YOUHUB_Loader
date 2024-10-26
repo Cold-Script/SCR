@@ -235,12 +235,12 @@ Callback = function(v)
 _G.EntityNotifying = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position) <1000) or child:IsDescendantOf(workspace) then
+if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position) <1000) or not child:IsDescendantOf(workspace) then
 Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush has spawn, hide")
 end
-elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) or child:IsDescendantOf(workspace) then
+elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) or not child:IsDescendantOf(workspace) then
 Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush has spawn, hide")
@@ -786,8 +786,8 @@ end
 end
 end})
 local LeftVisualI = Tab.Visual:AddLeftGroupbox("Viewpoint")
-LeftVisualI:AddLabel("Field Of View")
 LeftVisualI:AddSlider("MySlider",{
+Text = "Field Of View",
 Default = 70,
 Min = 70, Max = 120,
 Rounding = 2,
@@ -805,6 +805,46 @@ if _G.Field then
 workspace.CurrentCamera.FieldOfView = _G.FieldOfView or 70
 else
 workspace.CurrentCamera.FieldOfView = 70
+end
+end)
+end})
+LeftVisualI:AddDivider()
+LeftVisualI:AddDropdown("MyDropdown",{
+Values = {"Vertical", "MaxAxis", "Diagonal"},
+Default = 1,
+Text = "View Mode",
+Callback = function(v)
+workspace.CurrentCamera.FieldOfViewMode = v
+end})
+local RightVisualI = Tab.Visual:AddRightGroupbox("World")
+
+RightVisualI:AddToggle("MyToggle",{
+Text = "Fullbright",
+Default = false,
+Callback = function(v)
+if v then
+game.Lighting.Brightness = 1.5
+game.Lighting.GlobalShadows = false
+game.Lighting.OutdoorAmbient = _G.Ambient or Color3.new(1,1,1)
+else
+game.Lighting.Brightness = 1
+game.Lighting.GlobalShadows = true
+game.Lighting.OutdoorAmbient = Color3.new(0,0,0)
+end
+end})
+RightVisualI:AddToggle("MyToggle",{
+Text = "Remove Fog",
+Default = false,
+Callback = function(v)
+pcall(function()
+if not game.Lighting:GetAttribute("FogStart") then game.Lighting:SetAttribute("FogStart", game.Lighting.FogStart) end
+if not game.Lighting:GetAttribute("FogEnd") then game.Lighting:SetAttribute("FogEnd", game.Lighting.FogEnd) end
+game.Lighting.FogStart = value and 0 or game.Lighting:GetAttribute("FogStart")
+game.Lighting.FogEnd = value and math.huge or game.Lighting:GetAttribute("FogEnd")
+local fog = game.Lighting:FindFirstChildOfClass("Atmosphere")
+if fog then
+if not fog:GetAttribute("Density") then fog:SetAttribute("Density", fog.Density) end
+fog.Density = value and 0 or fog:GetAttribute("Density")
 end
 end)
 end})
