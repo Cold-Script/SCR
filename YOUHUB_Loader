@@ -793,7 +793,7 @@ Min = 70, Max = 120,
 Rounding = 2,
 Compact = true,
 Callback = function(v)
-_G.FieldOfView = true
+_G.FieldOfView = v
 end})
 LeftVisualI:AddToggle("MyToggle",{
 Text = "Field Of View",
@@ -817,9 +817,9 @@ Callback = function(v)
 workspace.CurrentCamera.FieldOfViewMode = v
 end})
 local RightVisualI = Tab.Visual:AddRightGroupbox("World")
-RightVisualI:AddColorPicker('ColorPicker3', {
+RightVisualI:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
 	Default = Color3.new(0, 0, 1),
-	Text = 'Ambient',
+	Title = 'Ambient',
 	Transparency = 0,
 	Callback = function(v)
 _G.Ambient = v
