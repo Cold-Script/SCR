@@ -72,15 +72,13 @@ end
 end)
 end})
 LeftMainI:AddToggle("MyToggle",{
-Text = "Replay On Death",
+Text = "Shutdown On Death",
 Default = Flags.ReplayOnDeath,
 Callback = function(v)
 _G.ReplayOnDeath = v
 game:GetService("RunService").RenderStepped:Connect(function()
-wait(5)
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReplayOnDeath then
-wait(5)
-game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
+game:Shutdown()
 end
 end)
 end})
@@ -956,4 +954,58 @@ else
 workspace.Gravity = 90
 end
 end)
+end})
+LeftMiscellaneousI:AddDivider()
+LeftVisualI:AddSlider("MySlider",{
+Text = "Speed Booster",
+Default = 15,
+Min = 21, Max = 50,
+Rounding = 2,
+Compact = true,
+Callback = function(v)
+_G.Speed = v
+end})
+LeftMiscellaneousI:AddToggle("MyToggle",{
+Text = "Speed",
+Defalut = false,
+Callback = function(v)
+_G.SpeedBoost = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.SpeedBoost then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.Speed or 21
+else
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+end)
+end})
+local RightMiscellaneousI = Tab.Miscellaneous:AddRightGroupbox("Other")
+RightMiscellaneousI:AddButton({
+Text = "Revive",
+DoubleClick = true,
+Callback = function(v)
+game:GetService("ReplicatedStorage").EntityInfo.Revive:FireServer()
+end})
+RightMiscellaneousI:AddButton({
+Text = "Return",
+DoubleClick = true,
+Callback = function(v)
+game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
+end})
+RightMiscellaneousI:AddButton({
+Text = "Lobby",
+DoubleClick = true,
+Callback = function(v)
+game:GetService("ReplicatedStorage").EntityInfo.Lobby:FireServer()
+end})
+RightMiscellaneousI:AddButton({
+Text = "Died",
+DoubleClick = true,
+Callback = function(v)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end})
+RightMiscellaneousI:AddButton({
+Text = "Shutdown",
+DoubleClick = true,
+Callback = function(v)
+game:Shutdown()
 end})
