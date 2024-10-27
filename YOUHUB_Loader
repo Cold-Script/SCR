@@ -488,10 +488,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 pcall(function()
 if _G.AntiGiggle then
 for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
-for _, giggle in pairs(room:GetChildren()) do
-if giggle.Name == "GiggleCeiling" then
-giggle:WaitForChild("Hitbox", 5).CanTouch = not true
-end
+if room.Name == "GiggleCeiling" then
+room.Hitbox.CanTouch = false
 end
 end
 end
@@ -507,14 +505,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 pcall(function()
 if _G.AntiGloomEgg then
 for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
-for _, gloomPile in pairs(room:GetChildren()) do
-if gloomPile.Name == "GloomPile" then
-for _, gloomEgg in pairs(gloomPile:GetDescendants()) do
-if gloomEgg.Name == "Egg" then
-gloomEgg.CanTouch = not true
-end
-end
-end
+if room.Name == "GloomPile" then
+room.Egg.CanTouch = false
 end
 end
 end
@@ -527,7 +519,8 @@ Callback = function(v)
 _G.AntiGloomEgg = v
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
-pcall(function()if _G.AntiDam then
+pcall(function()
+if _G.AntiDam then
 local room = workspace.CurrentRooms:FindFirstChild("100")
 if room and room:FindFirstChild("_DamHandler") then
 local seekFlood = room._DamHandler:FindFirstChild("SeekFloodline")
@@ -808,7 +801,7 @@ workspace.CurrentCamera.FieldOfViewMode = v
 end})
 local RightVisualI = Tab.Visual:AddRightGroupbox("World")
 RightVisualI:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
-	Default = Color3.new(0, 0, 1),
+	Default = Color3.new(1, 1, 1),
 	Title = 'Ambient',
 	Transparency = 0,
 	Callback = function(v)
