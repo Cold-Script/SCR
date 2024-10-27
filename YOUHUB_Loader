@@ -233,12 +233,12 @@ Callback = function(v)
 _G.EntityNotifying = v
 if _G.EntityNotifying then
 EntityNotifying = workspace.ChildAdded:Connect(function(child)
-if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position) <1000) or not child:IsDescendantOf(workspace) then
+if child.Name == "RushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position) <1000) or child:IsDescendantOf(workspace) then
 Notifying("Rush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush has spawn, hide")
 end
-elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) or not child:IsDescendantOf(workspace) then
+elseif child.Name == "AmbushMoving" and (game.Players.LocalPlayer:DistanceFromCharacter(child:GetPivot().Position)<1000) or child:IsDescendantOf(workspace) then
 Notifying("Ambush has spawn, hide now", _G.TimeNotifying, 4590657391)
 if _G.NotifyingEntityChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush has spawn, hide")
@@ -410,12 +410,10 @@ _G.AntiLookman = v
 end})
 game:GetService("Workspace").DescendantAdded:Connect(function(v)
 if not _G.AntiBanana then return end
-if v:IsA("Part") then
 if _G.AntiBanana then
 if v.Name == "BananaPeel" then
 v.CanTouch = false
 v.CanCollide = false
-end
 end
 end
 end)
@@ -649,15 +647,12 @@ else
 Screech:Disconnect()
 end
 end})
-game:GetService("Workspace").DescendantAdded:Connect(function(v)
-if not _G.RemoveA90 then return end
 if _G.RemoveA90 then
 local A90 = game.ReplicatedStorage:WaitForChild("EntityInfo"):WaitForChild("A90")
 local A90J = game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90")
 A90.Parent = nil
 A90J.Parent = nil
 end
-end)
 RightExploitsII:AddToggle("MyToggle",{
 Text = "Disable A90",
 Default = Flags.DisabledA90,
@@ -668,12 +663,9 @@ A90.Parent = game.ReplicatedStorage:WaitForChild("EntityInfo")
 A90J.Parent = game.Players.LocalPlayers.PlayerGui.MainUI.Jumpscare
 end
 end})
-game:GetService("Workspace").DescendantAdded:Connect(function(v)
-if not _G.RemoveHalt then return end
 if _G.RemoveHalt then
 game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
 end
-end)
 RightExploitsII:AddToggle("MyToggle",{
 Text = "Disable Halt",
 Default = Flags.DisabledHalt,
@@ -956,7 +948,7 @@ end
 end)
 end})
 LeftMiscellaneousI:AddDivider()
-LeftVisualI:AddSlider("MySlider",{
+LeftMiscellaneousI:AddSlider("MySlider",{
 Text = "Speed Booster",
 Default = 15,
 Min = 21, Max = 50,
@@ -982,30 +974,30 @@ local RightMiscellaneousI = Tab.Miscellaneous:AddRightGroupbox("Other")
 RightMiscellaneousI:AddButton({
 Text = "Revive",
 DoubleClick = true,
-Callback = function(v)
+Func = function(v)
 game:GetService("ReplicatedStorage").EntityInfo.Revive:FireServer()
 end})
 RightMiscellaneousI:AddButton({
 Text = "Return",
 DoubleClick = true,
-Callback = function(v)
+Func = function(v)
 game:GetService("ReplicatedStorage").EntityInfo.PlayAgain:FireServer()
 end})
 RightMiscellaneousI:AddButton({
 Text = "Lobby",
 DoubleClick = true,
-Callback = function(v)
+Func = function(v)
 game:GetService("ReplicatedStorage").EntityInfo.Lobby:FireServer()
 end})
 RightMiscellaneousI:AddButton({
 Text = "Died",
 DoubleClick = true,
-Callback = function(v)
+Func = function(v)
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end})
 RightMiscellaneousI:AddButton({
 Text = "Shutdown",
 DoubleClick = true,
-Callback = function(v)
+Func = function(v)
 game:Shutdown()
 end})
