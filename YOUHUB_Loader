@@ -1,3 +1,64 @@
+local function ESP(Child, Name, Color, Size, Title)
+local Billboard = Instance.new("BillboardGui", Child)
+local Text = Instance.new("TextLabel", Billboard)
+local Highlight = Instance.new('Highlight', Child)
+local UIStroke = Instance.new("UIStroke", Text)
+        Billboard.AlwaysOnTop = true
+        Billboard.Size = UDim2.new(0,400,0,100)
+        Billboard.Adornee = Child
+        Billboard.Name = Title
+        Billboard.Active = false
+        Text.AnchorPoint = Vector2.new(0.5,0.5)
+        Text.BackgroundTransparency = 1
+        Text.BackgroundColor3 = Color3.new(0,0,0)
+        Text.TextColor3 = Color
+        Text.Font = "Oswald"
+        Text.TextSize = Size
+        Text.Text = Name
+        Text.TextTransparency = 0
+        Text.Visible = true
+        Text.Size = UDim2.new(1,0,0,0)
+        Text.Position = UDim2.new(0.5001,0,0.8,-35)
+        UIStroke.Thickness = 0.75
+        UIStroke.Color = Color3.new(1,1,1)
+        UIStroke.Transparency = 0
+        Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        Highlight.FillColor = Color
+        Highlight.OutlineColor = Color3.new(1,1,1)
+        Highlight.FillTransparency = 1
+        Highlight.OutlineTransparency =  1
+        Highlight.Name = Title
+task.wait(0.25) --Time Delay : 0.25/s
+        game:GetService('TweenService'):Create(Highlight, TweenInfo.new(1), {
+        FillTransparency = 0.5,
+        OutlineTransparency = 0
+        }):Play()
+task.spawn(function()
+game:GetService("RunService").RenderStepped:Connect(function()
+        if _G.Rainbow then
+        Text.TextColor3 = Color3.new(1,1,1)
+        Highlight.FillColor = Color3.fromHSV(tick() % 10 / 10, 1, 1)
+        Highlight.OutlineColor = Color3.new(1,1,1)
+        UIStroke.Color = Color3.fromHSV(tick() % 10 / 10, 1, 1)
+        else
+        Text.TextColor3 = Color
+        Highlight.FillColor = Color
+        Highlight.OutlineColor = Color3.new(1,1,1)
+        UIStroke.Color = Color3.new(0,0,0)
+end
+end)
+end)
+if Child:IsA("Part") then
+V.Transparency = 0
+end
+end
+local function Clear(name)
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == name then
+v:Destroy()
+end
+end
+end
 local repo = 'https://raw.githubusercontent.com/Cold-Script/Linoria/refs/heads/main/LinoriaLib/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library_Loader.lua'))()
@@ -323,7 +384,7 @@ Default = Flags.AntiSnare,
 Callback = function(v)
 _G.AntiSnare = v
 end})
-game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(v)
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
 if not _G.AntiDupe then return end
 if _G.AntiDupe then
 if v.Name == "DoorFake" then
@@ -338,11 +399,14 @@ v.Sign.Stinker.Shadow.Text = "DUPE"
 elseif v.Name == "SideroomSpace" then
 v.Collision.CanTouch = false
 v.Collision.CanCollide = true
+elseif v.Name == "SideroomDupe" then
+v.Hidden.CanTouch = false
+v.Hidden.CanCollide = false
 end
 end
 end)
 LeftExploitsI:AddToggle("MyToggle",{
-Text = "Anti-Dupe",
+Text = "Anti-Dupe,Vacuum",
 Default = Flags.AntiDupe,
 Callback = function(v)
 _G.AntiSnare = v
@@ -768,6 +832,145 @@ workspace:FindFirstChild("_internal_bypass_acbypassprogress"):Destroy()
 end
 end
 end})
+local LeftESPI = Tab.ESP:AddLeftGroupbox("Color ESP")
+LeftESPI:AddLabel("Doors"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(255, 0, 0),
+	Title = 'Door ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.DoorESP = v
+end})
+LeftESPI:AddLabel("Key"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(255, 255, 0),
+	Title = 'Key ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.KeyESP = v
+end})
+LeftESPI:AddLabel("GoldPile"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(255, 255, 0),
+	Title = 'Gold ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.GoldESP = v
+end})
+LeftESPI:AddLabel("Books"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(255, 50, 255),
+	Title = 'Book ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.BookESP = v
+end})
+LeftESPI:AddLabel("Fuse"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(50, 50, 50),
+	Title = 'Fuse ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.FuseESP = v
+end})
+LeftESPI:AddLabel("Gate Lever"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(50, 50, 50),
+	Title = 'Lever ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.LeverESP = v
+end})
+LeftESPI:AddLabel("Timer Lever"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(50, 50, 50),
+	Title = 'Timer ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.TimerESP = v
+end})
+LeftESPI:AddLabel("Players"):AddColorPicker('ColorPicker',{
+	Default = Color3.fromRGB(255, 0, 0),
+	Title = 'Players ESP',
+	Transparency = 0,
+	Callback = function(v)
+_G.PlayerESP = v
+end})
+local RightESPI = Tab.ESP:AddRightGroupbox("ESP")
+RightESPI:AddToggle("MyToggle",{
+Text = "Door",
+Default = false,
+Callback = function(v)
+if v then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Door" and v.Parent.Name == "Door" then
+ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, Color3.fromRGB(80,255,200), "20", "DoorESP")
+elseif v.Name == "RoomsDoor_Entrance" then
+ESP(v, "Door (The Rooms)", _G.DoorESP or Color3.new(1), "20", "DoorESP")
+end
+end
+DoorESP = workspace.ChildAdded:Connect(function(child)                       
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Door" and v.Parent.Name == "Door" then
+ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, Color3.fromRGB(80,255,200), "20", "DoorESP")
+elseif v.Name == "RoomsDoor_Entrance" then
+ESP(v, "Door (The Rooms)", _G.DoorESP or Color3.new(1), "20", "DoorESP")
+end
+end
+end)
+else
+DoorESP:Disconnect()
+Clear("DoorESP")
+end
+end})
+LeftVisualI:AddToggle("MyToggle",{
+Text = "Key",
+Default = false,
+Callback = function(v)
+if v then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "KeyObtain" then
+ESP(v, "Key", _G.KeyESP or Color3.fromRGB(255,255,0), "20", "KeyESP")
+end		
+end					
+KeyESP = workspace.ChildAdded:Connect(function(child)                       
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "KeyObtain" then
+ESP(v, "Key", _G.KeyESP or Color3.fromRGB(255,255), "20", "KeyESP")
+end		
+end	                        
+end)
+else
+KeyESP:Disconnect()
+Clear("KeyESP")
+end		
+end})
+LeftVisualI:AddToggle("MyToggle",{
+Text = "GoldPile",
+Default = false,
+Callback = function(v)
+if v then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "GoldPile" then
+ESP(v, "Gold", _G.GoldESP or Color3.fromRGB(255,255,0), "20", "GoldESP")
+end		
+end	
+GoldESP = game:GetService("Workspace").DescendantAdded:Connect(function(v)
+if v.Name == "GoldPile" then
+ESP(v, "Gold", _G.GoldESP or Color3.fromRGB(255,255,0), "20", "GoldESP")
+end		
+end)
+GoldESP = workspace.ChildAdded:Connect(function(v)                       
+if v.Name == "GoldPile" then
+ESP(v, "Gold", _G.GoldESP or Color3.fromRGB(255,255,0), "20", "GoldESP")
+end		                        
+end)
+else
+GoldESP:Disconnect()
+Clear("GoldESP")
+end
+end})
+LeftVisualI:AddDivider()
+LeftVisualI:AddToggle("MyToggle",{
+Text = "Rainbow ESP",
+Default = false,
+Callback = function(v)
+_G.Rainbow = v
+end})
+
 local LeftVisualI = Tab.Visual:AddLeftGroupbox("Viewpoint")
 LeftVisualI:AddSlider("MySlider",{
 Text = "Field Of View",
