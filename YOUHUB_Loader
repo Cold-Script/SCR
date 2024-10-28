@@ -897,7 +897,7 @@ Callback = function(v)
 if v then 
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Door" and v.Parent.Name == "Door" then
-ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, Color3.fromRGB(80,255,200), "20", "DoorESP")
+ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, _G.DoorESP or Color3.new(1), "20", "DoorESP")
 elseif v.Name == "RoomsDoor_Entrance" then
 ESP(v, "Door (The Rooms)", _G.DoorESP or Color3.new(1), "20", "DoorESP")
 end
@@ -905,7 +905,7 @@ end
 DoorESP = workspace.ChildAdded:Connect(function(child)                       
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Door" and v.Parent.Name == "Door" then
-ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, Color3.fromRGB(80,255,200), "20", "DoorESP")
+ESP(v, "Door " .. v.Parent.Sign.Stinker.Text, _G.DoorESP or Color3.new(1), "20", "DoorESP")
 elseif v.Name == "RoomsDoor_Entrance" then
 ESP(v, "Door (The Rooms)", _G.DoorESP or Color3.new(1), "20", "DoorESP")
 end
@@ -916,7 +916,7 @@ DoorESP:Disconnect()
 Clear("DoorESP")
 end
 end})
-LeftVisualI:AddToggle("MyToggle",{
+RightESPI:AddToggle("MyToggle",{
 Text = "Key",
 Default = false,
 Callback = function(v)
@@ -938,7 +938,7 @@ KeyESP:Disconnect()
 Clear("KeyESP")
 end		
 end})
-LeftVisualI:AddToggle("MyToggle",{
+RightESPI:AddToggle("MyToggle",{
 Text = "GoldPile",
 Default = false,
 Callback = function(v)
