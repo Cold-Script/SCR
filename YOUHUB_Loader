@@ -61,7 +61,7 @@ end
 end
 local repo = 'https://raw.githubusercontent.com/Cold-Script/Linoria/refs/heads/main/LinoriaLib/'
 
-local Library = loadstring(game:HttpGet(repo .. 'Library_Loader.lua'))()
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/ShowerHead-FluxTeam/scripts/main/funky-friday-autoplay-ui'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Window = Library:CreateWindow({
@@ -72,12 +72,12 @@ local Window = Library:CreateWindow({
     MenuFadeTime = 0.2
 })
 local Tab = {
-  Main = Window:AddTab("Main", "rbxassetid://4335489011"),
-  Exploits = Window:AddTab("Exploits", "rbxassetid://4335489011"),
-  ESP = Window:AddTab("ESP", "rbxassetid://4335489011"),
-  Visual = Window:AddTab("Visual", "rbxassetid://4335489011"),
-  Miscellaneous = Window:AddTab("Miscellaneous", "rbxassetid://4335489011"),
-  Configs = Window:AddTab("Configs", "rbxassetid://4335489011")
+  Main = Window:AddTab("Main"),
+  Exploits = Window:AddTab("Exploits"),
+  ESP = Window:AddTab("ESP"),
+  Visual = Window:AddTab("Visual"),
+  Miscellaneous = Window:AddTab("Miscellaneous"),
+  Configs = Window:AddTab("Configs")
 }
 
 local Flags = {
@@ -942,14 +942,15 @@ RightESPI:AddToggle("MyToggle",{
 Text = "GoldPile",
 Default = false,
 Callback = function(v)
+_G.Gold = v
 if v then 
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "GoldPile" then
 ESP(v, "Gold", _G.GoldESP or Color3.fromRGB(255,255,0), "20", "GoldESP")
 end		
 end	
-GoldESP = game:GetService("Workspace").DescendantAdded:Connect(function(v)
-if v.Name == "GoldPile" then
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
+if v.Name == "GoldPile" and _G.Gold then
 ESP(v, "Gold", _G.GoldESP or Color3.fromRGB(255,255,0), "20", "GoldESP")
 end		
 end)
@@ -963,8 +964,8 @@ GoldESP:Disconnect()
 Clear("GoldESP")
 end
 end})
-LeftVisualI:AddDivider()
-LeftVisualI:AddToggle("MyToggle",{
+RightESPI:AddDivider()
+RightESPI:AddToggle("MyToggle",{
 Text = "Rainbow ESP",
 Default = false,
 Callback = function(v)
